@@ -28,31 +28,6 @@
 
 @implementation TWTRWebViewController
 
-// Conversion from UIWebViewNavigationType to WKNavigationType
-+ (UIWebViewNavigationType)_enumHelperForNavigationType:(WKNavigationType)wkNavigationType {
-    switch (wkNavigationType) {
-        case WKNavigationTypeLinkActivated:
-            return UIWebViewNavigationTypeLinkClicked;
-            break;
-        case WKNavigationTypeFormSubmitted:
-            return UIWebViewNavigationTypeFormSubmitted;
-            break;
-        case WKNavigationTypeBackForward:
-            return UIWebViewNavigationTypeBackForward;
-            break;
-        case WKNavigationTypeReload:
-            return UIWebViewNavigationTypeReload;
-            break;
-        case WKNavigationTypeFormResubmitted:
-            return UIWebViewNavigationTypeFormResubmitted;
-            break;
-        case WKNavigationTypeOther:
-        default:
-            return UIWebViewNavigationTypeOther;
-            break;
-    }
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -107,7 +82,7 @@
     }
     WKNavigationActionPolicy decision = WKNavigationActionPolicyAllow;
     if ([self shouldStartLoadWithRequest]) {
-        if (![self shouldStartLoadWithRequest](self, request, [TWTRWebViewController _enumHelperForNavigationType:navigationAction.navigationType])) {
+        if (![self shouldStartLoadWithRequest](self, request, navigationAction.navigationType)) {
             decision = WKNavigationActionPolicyCancel;
         };
     }
